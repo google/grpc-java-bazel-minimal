@@ -1,0 +1,75 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+RULES_JVM_EXTERNAL_TAG = "4.0"
+
+RULES_JVM_EXTERNAL_SHA = "31701ad93dbfe544d597dbe62c9a1fdd76d81d8a9150c2bf1ecf928ecdf97169"
+
+http_archive(
+    name = "rules_jvm_external",
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
+)
+
+rules_java_version = "385292fcfd244186e5e5811122ed32cf214a9024"
+
+# rules_java defines rules for generating Java code from Protocol Buffers.
+http_archive(
+    name = "rules_java",
+    sha256 = "9a72d1bade803e1913d1e0a6f8beb35786fa3e8e460c98a56d2054200b9f6c5e",
+    strip_prefix = "rules_java-%s" % rules_java_version,
+    urls = [
+        "https://github.com/bazelbuild/rules_java/archive/%s.tar.gz" % rules_java_version,
+    ],
+)
+
+rules_proto_version = "fcad4680fee127dbd8344e6a961a28eef5820ef4"
+
+# rules_proto defines abstract rules for building Protocol Buffers.
+http_archive(
+    name = "rules_proto",
+    sha256 = "36476f17a78a4c495b9a9e70bd92d182e6e78db476d90c74bac1f5f19f0d6d04",
+    strip_prefix = "rules_proto-%s" % rules_proto_version,
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/%s.tar.gz" % rules_proto_version,
+        "https://github.com/bazelbuild/rules_proto/archive/%s.tar.gz" % rules_proto_version,
+    ],
+)
+
+load("@rules_java//java:repositories.bzl", "rules_java_dependencies", "rules_java_toolchains")
+
+rules_java_dependencies()
+
+rules_java_toolchains()
+
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+
+rules_proto_dependencies()
+
+rules_proto_toolchains()
+
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+http_archive(
+    name = "io_grpc_grpc_java",
+    sha256 = "bb35847c18c8bdf392f618396feb50f6473a3b4150a199d555715fd3260a9ab8",
+    strip_prefix = "grpc-java-1.40.0",
+    urls = ["https://github.com/grpc/grpc-java/archive/v1.40.0.tar.gz"],
+)
+
+load("@io_grpc_grpc_java//:repositories.bzl", "IO_GRPC_GRPC_JAVA_ARTIFACTS", "IO_GRPC_GRPC_JAVA_OVERRIDE_TARGETS", "grpc_java_repositories")
+
+maven_install(
+    artifacts = IO_GRPC_GRPC_JAVA_ARTIFACTS,
+    generate_compat_repositories = True,
+    override_targets = IO_GRPC_GRPC_JAVA_OVERRIDE_TARGETS,
+    repositories = [
+        "https://repo.maven.apache.org/maven2/",
+    ],
+)
+
+load("@maven//:compat.bzl", "compat_repositories")
+
+compat_repositories()
+
+grpc_java_repositories()

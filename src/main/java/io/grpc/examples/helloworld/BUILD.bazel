@@ -1,0 +1,43 @@
+java_binary(
+    name = "server",
+    srcs = ["HelloWorldServer.java"],
+    main_class = "io.grpc.examples.helloworld.HelloWorldServer",
+    runtime_deps = [
+        "@io_grpc_grpc_java//netty",
+    ],
+    deps = [
+        "//src/main/proto:helloworld_java_grpc",
+        "//src/main/proto:helloworld_proto_java",
+        "@com_google_protobuf//:protobuf_java",
+        "@com_google_protobuf//:protobuf_java_util",
+        "@io_grpc_grpc_java//api",
+        "@io_grpc_grpc_java//protobuf",
+        "@io_grpc_grpc_java//stub",
+        "@maven//:com_google_api_grpc_proto_google_common_protos",
+        "@maven//:com_google_code_findbugs_jsr305",
+        "@maven//:com_google_code_gson_gson",
+        "@maven//:com_google_guava_guava",
+    ],
+)
+
+java_binary(
+    name = "client",
+    srcs = ["HelloWorldClient.java"],
+    main_class = "io.grpc.examples.helloworld.HelloWorldClient",
+    runtime_deps = [
+        "@io_grpc_grpc_java//netty",
+    ],
+    deps = [
+        "//src/main/proto:helloworld_java_grpc",
+        "//src/main/proto:helloworld_proto_java",
+        "@com_google_protobuf//:protobuf_java",
+        "@com_google_protobuf//:protobuf_java_util",
+        "@io_grpc_grpc_java//api",
+        "@io_grpc_grpc_java//protobuf",
+        "@io_grpc_grpc_java//stub",
+        "@maven//:com_google_api_grpc_proto_google_common_protos",
+        "@maven//:com_google_code_findbugs_jsr305",
+        "@maven//:com_google_code_gson_gson",
+        "@maven//:com_google_guava_guava",
+    ],
+)

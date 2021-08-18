@@ -1,0 +1,9 @@
+# Ignore all bazel-* symlinks. There is no full list since this can change
+# based on the name of the directory bazel is cloned into.
+/bazel-*
+
+# Bazel plugin for IntelliJ IDEA
+.project/.blaze
+.project/.idea/
+
+
