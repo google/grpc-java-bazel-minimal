@@ -2,6 +2,14 @@
 
 This project shows a minimal, standalone setup for using grpc-java with bazel.
 
+```
+bazel build //...
+# start server
+./bazel-bin/src/main/java/io/grpc/examples/helloworld/server
+# (in different tab) start client
+./bazel-bin/src/main/java/io/grpc/examples/helloworld/client
+```
+
 ## Contributing
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for details.
